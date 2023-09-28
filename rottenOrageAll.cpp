@@ -2,24 +2,8 @@
 
 using namespace std;
 
-void dfs(int ini, int sr, int sc, int newColor, vector<vector<int>> &ans,
-         vector<vector<int>> &image, int delRow[], int delCol[])
-{
-    int n = ans.size();
-    int m = ans[0].size();
-    ans[sr][sc] = newColor;
-
-    for (int i = 0; i < 4; i++)
-    {
-        int nSr = sr + delRow[i];
-        int nSc = sc + delCol[i];
-
-        if (nSr >= 0 && nSr < n && nSc >= 0 && nSc < m && image[nSr][nSc] == ini && ans[nSr][nSc] != newColor)
-        {
-            dfs(ini, nSr, nSc, newColor, ans, image, delRow, delCol);
-        }
-    }
-}
+// here we have to use only BFS because if we use dfs then it first visit
+//  node by which we may not get time minimum time
 
 int main()
 {
