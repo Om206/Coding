@@ -8,6 +8,28 @@ void printSet(set<pair<int, int>> &st)
         cout << it.first << " " << it.second << endl;
     }
 }
+void usePriorityQueue(vector<int> &dist, vector<int> &src, vector<pair<int, int>> adj[],
+                      int v, int n, int sr)
+{
+    priority_queue<pair<int, int>> qr;
+    qr.push({0, sr});
+    dist[sr] = 0;
+    while (!qr.empty())
+    {
+        int node = qr.top().second;
+        int d = qr.top().first;
+        qr.pop();
+        for (auto &it : adj[node])
+        {
+            if (d + it.second < dist[it.first])
+            {
+                dist[it.first] = d + it.second;
+                qr.push({dist[it.first], it.first});
+                src[it.first] = node;
+            }
+        }
+    }
+}
 int main()
 {
     int v, n, sc;
@@ -60,6 +82,27 @@ int main()
         }
     }
 
+    for (int i = 0; i < v; i++)
+    {
+        cout << "Src " << sc << " to " << i << ": " << dist[i] << endl;
+        cout << "Path is: ";
+        int j = i;
+        cout << i;
+        while (j != sc)
+        {
+            cout << "<-" << src[j];
+            j = src[j];
+        }
+        cout << endl
+             << endl;
+    }
+    for (auto &it : dist)
+        it = 1e9;
+    for (auto &it : src)
+        it = 0;
+    // no need to go here just for priority_queue i wrote this code
+    cout << "\n\n\n using priority_queue\n\n";
+    usePriorityQueue(dist, src, adj, v, n, sc);
     for (int i = 0; i < v; i++)
     {
         cout << "Src " << sc << " to " << i << ": " << dist[i] << endl;
